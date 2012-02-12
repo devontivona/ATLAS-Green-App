@@ -85,6 +85,7 @@
 		2BFFD6A813970778000A619F /* big_wtb_9x2.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2BFFD67F13970778000A619F /* big_wtb_9x2.pvrtc */; };
 		2BFFD6A913970778000A619F /* big_wtb_9x3.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2BFFD68013970778000A619F /* big_wtb_9x3.pvrtc */; };
 		2BFFD6AA13970778000A619F /* big_wtb_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BFFD68113970778000A619F /* big_wtb_info.plist */; };
+		913EAAC614E8486B0001C36D /* UIImage+Darken.m in Sources */ = {isa = PBXBuildFile; fileRef = 913EAAC514E8486B0001C36D /* UIImage+Darken.m */; };
 		9199ACB414E0CD6700A33B91 /* GADepartureIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACB214E0CD6700A33B91 /* GADepartureIcon.png */; };
 		9199ACB514E0CD6700A33B91 /* GADepartureIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACB314E0CD6700A33B91 /* GADepartureIcon@2x.png */; };
 		9199ACBF14E0CE9100A33B91 /* GANavigationButtonBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACB714E0CE9100A33B91 /* GANavigationButtonBack.png */; };
@@ -95,7 +96,6 @@
 		9199ACC414E0CE9100A33B91 /* GANavigationButtonSquare@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACBC14E0CE9100A33B91 /* GANavigationButtonSquare@2x.png */; };
 		9199ACC514E0CE9100A33B91 /* GANavigationButtonSquarePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACBD14E0CE9100A33B91 /* GANavigationButtonSquarePressed.png */; };
 		9199ACC614E0CE9100A33B91 /* GANavigationButtonSquarePressed@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACBE14E0CE9100A33B91 /* GANavigationButtonSquarePressed@2x.png */; };
-		9199ACD214E0CF4C00A33B91 /* UIImage+Darken.m in Sources */ = {isa = PBXBuildFile; fileRef = 9199ACD114E0CF4C00A33B91 /* UIImage+Darken.m */; };
 		9199ACF614E0D52500A33B91 /* GAStatisticsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACF414E0D52500A33B91 /* GAStatisticsIcon.png */; };
 		9199ACF714E0D52500A33B91 /* GAStatisticsIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACF514E0D52500A33B91 /* GAStatisticsIcon@2x.png */; };
 		9199AD0314E0D69800A33B91 /* GABadgesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9199AD0114E0D69800A33B91 /* GABadgesViewController.m */; };
@@ -197,6 +197,8 @@
 		2BFFD68113970778000A619F /* big_wtb_info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = big_wtb_info.plist; path = resources/big_wtb/big_wtb_info.plist; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ATLAS Green App_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ATLAS Green App_Prefix.pch"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* ATLAS Green App-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ATLAS Green App-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		913EAAC414E8486B0001C36D /* UIImage+Darken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Darken.h"; sourceTree = "<group>"; };
+		913EAAC514E8486B0001C36D /* UIImage+Darken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Darken.m"; sourceTree = "<group>"; };
 		9199ACB214E0CD6700A33B91 /* GADepartureIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GADepartureIcon.png; sourceTree = "<group>"; };
 		9199ACB314E0CD6700A33B91 /* GADepartureIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GADepartureIcon@2x.png"; sourceTree = "<group>"; };
 		9199ACB714E0CE9100A33B91 /* GANavigationButtonBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GANavigationButtonBack.png; sourceTree = "<group>"; };
@@ -207,8 +209,6 @@
 		9199ACBC14E0CE9100A33B91 /* GANavigationButtonSquare@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GANavigationButtonSquare@2x.png"; sourceTree = "<group>"; };
 		9199ACBD14E0CE9100A33B91 /* GANavigationButtonSquarePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GANavigationButtonSquarePressed.png; sourceTree = "<group>"; };
 		9199ACBE14E0CE9100A33B91 /* GANavigationButtonSquarePressed@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GANavigationButtonSquarePressed@2x.png"; sourceTree = "<group>"; };
-		9199ACD014E0CF4C00A33B91 /* UIImage+Darken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Darken.h"; path = "../../../Documents/Projects/Erudio/Erudio/UIImage+Darken.h"; sourceTree = "<group>"; };
-		9199ACD114E0CF4C00A33B91 /* UIImage+Darken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Darken.m"; path = "../../../Documents/Projects/Erudio/Erudio/UIImage+Darken.m"; sourceTree = "<group>"; };
 		9199ACF414E0D52500A33B91 /* GAStatisticsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GAStatisticsIcon.png; sourceTree = "<group>"; };
 		9199ACF514E0D52500A33B91 /* GAStatisticsIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GAStatisticsIcon@2x.png"; sourceTree = "<group>"; };
 		9199AD0014E0D69800A33B91 /* GABadgesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GABadgesViewController.h; sourceTree = "<group>"; };
@@ -465,8 +465,8 @@
 		9199AD1314E0D6F400A33B91 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				9199ACD014E0CF4C00A33B91 /* UIImage+Darken.h */,
-				9199ACD114E0CF4C00A33B91 /* UIImage+Darken.m */,
+				913EAAC414E8486B0001C36D /* UIImage+Darken.h */,
+				913EAAC514E8486B0001C36D /* UIImage+Darken.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -640,11 +640,11 @@
 				28D7ACF80DDB3853001CB0EB /* GABaseViewController.mm in Sources */,
 				2BCAC48112FBCAEB0049D73C /* InteractionLayer.mm in Sources */,
 				2B35B058136A10BE00287424 /* PanDelegate.mm in Sources */,
-				9199ACD214E0CF4C00A33B91 /* UIImage+Darken.m in Sources */,
 				9199AD0314E0D69800A33B91 /* GABadgesViewController.m in Sources */,
 				9199AD0814E0D6A100A33B91 /* GADeparturesViewController.m in Sources */,
 				9199AD0D14E0D6BC00A33B91 /* GAStatisticsViewController.m in Sources */,
 				9199AD1A14E0DE7200A33B91 /* GAFormViewController.m in Sources */,
+				913EAAC614E8486B0001C36D /* UIImage+Darken.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
