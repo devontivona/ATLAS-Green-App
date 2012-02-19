@@ -23,6 +23,7 @@
 #import "GABadgesViewController.h"
 #import "GADeparturesViewController.h"
 #import "GAStatisticsViewController.h"
+#import "GALocationViewController.h"
 
 using namespace WhirlyGlobe;
 
@@ -44,10 +45,14 @@ using namespace WhirlyGlobe;
 @property (nonatomic,strong) LabelLayer *labelLayer;
 @property (nonatomic,strong) GridLayer *gridLayer;
 @property (nonatomic,strong) InteractionLayer *interactLayer;
+@property (nonatomic,strong) WGSelectionLayer *selectionLayer;
+
 
 - (void)showBadgesPopover:(id)sender;
 - (void)showDeparturePopover:(id)sender;
 - (void)showStatisticsPopover:(id)sender;
+
+- (void)addTextureLabels;
 
 @end
 
@@ -69,6 +74,7 @@ using namespace WhirlyGlobe;
 @synthesize labelLayer;
 @synthesize gridLayer;
 @synthesize interactLayer;
+@synthesize selectionLayer;
 
 - (void)clear
 {
@@ -104,6 +110,7 @@ using namespace WhirlyGlobe;
     self.labelLayer = nil;
     self.gridLayer = nil;
     self.interactLayer = nil;
+    self.selectionLayer = nil;
 }
 
 - (void)dealloc 
@@ -130,7 +137,6 @@ using namespace WhirlyGlobe;
     self.view.backgroundColor = [UIColor blackColor];
     self.view.opaque = YES;
 	self.view.autoresizesSubviews = YES;
-//	glView.frame = self.view.bounds;
     glView.frame = CGRectMake(0, 44, 768, 916);
     glView.backgroundColor = [UIColor blackColor];
 	
@@ -169,8 +175,13 @@ using namespace WhirlyGlobe;
 	self.vectorLayer = [[VectorLayer alloc] init];
 	[self.layerThread addLayer:vectorLayer];
 
+    // Selection layer
+    self.selectionLayer = [[WGSelectionLayer alloc] initWithGlobeView:theView renderer:sceneRenderer];
+    [self.layerThread addLayer:selectionLayer];
+    
 	// General purpose label layer.
 	self.labelLayer = [[LabelLayer alloc] init];
+    self.labelLayer.selectLayer = self.selectionLayer;
 	[self.layerThread addLayer:labelLayer];
 
 	// The interaction layer will handle label and geometry creation when something is tapped
@@ -180,6 +191,8 @@ using namespace WhirlyGlobe;
                                                              oceanShape:[[NSBundle mainBundle] pathForResource:@"10m_geography_marine_polys" ofType:@"shp"]
                                                             regionShape:[[NSBundle mainBundle] pathForResource:@"10m_admin_1_states_provinces_shp" ofType:@"shp"]]; 
     self.interactLayer.maxEdgeLen = [self.earthLayer smallestTesselation]/10.0;
+    self.interactLayer.selectionLayer = self.selectionLayer;
+    self.interactLayer.delegate = self;
 	[self.layerThread addLayer:interactLayer];
 			
 	// Give the renderer what it needs
@@ -188,7 +201,6 @@ using namespace WhirlyGlobe;
 	
 	// Wire up the gesture recognizers
 	self.pinchDelegate = [WhirlyGlobePinchDelegate pinchDelegateForView:glView globeView:theView];
-//	self.swipeDelegate = [WhirlyGlobeSwipeDelegate swipeDelegateForView:glView globeView:theView];
 	self.panDelegate = [PanDelegate panDelegateForView:glView globeView:theView];
 	self.tapDelegate = [WhirlyGlobeTapDelegate tapDelegateForView:glView globeView:theView];
     self.pressDelegate = [WhirlyGlobeLongPressDelegate longPressDelegateForView:glView globeView:theView];
@@ -276,8 +288,12 @@ using namespace WhirlyGlobe;
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[self.glView stopAnimation];
-	
 	[super viewWillDisappear:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self performSelector:@selector(addTextureLabels) withObject:Nil afterDelay:4.0];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -313,5 +329,54 @@ using namespace WhirlyGlobe;
     statisticsViewController.modalPresentationStyle = UIModalPresentationFormSheet;
     [self presentModalViewController:statisticsViewController animated:YES];
 }
+
+- (void)addTextureLabels
+ {
+    // This describes how our labels will look
+    NSDictionary *labelDesc = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithBool:YES],@"enable",
+                              [UIColor clearColor],@"backgroundColor",
+                              [UIColor whiteColor],@"textColor",
+                              [UIFont boldSystemFontOfSize:16.0],@"font",
+                              [NSNumber numberWithInt:0],@"drawOffset",
+                              [NSNumber numberWithFloat:0.02],@"height",
+                              [NSNumber numberWithFloat:0.02],@"width",
+                              nil];
+
+    // Build up an individual label
+    NSMutableArray *labels = [[NSMutableArray alloc] init];
+    SingleLabel *texLabel = [[SingleLabel alloc] init];
+    UIImage *texImage = [UIImage imageNamed:@"GAMarker"];
+    Texture *theTex = new Texture(texImage);
+    theTex->setUsesMipmaps(true);
+    SimpleIdentity theTexId = theTex->getId();
+    theScene->addChangeRequest(new AddTextureReq(theTex));
+    texLabel.text = @" ";
+    texLabel.iconTexture = theTexId;
+    [texLabel setLoc:GeoCoord::CoordFromDegrees(2.350833, 48.856667)];
+     
+    texLabel.isSelectable = true;
+     
+    [labels addObject:texLabel];
+    [self.labelLayer addLabels:labels desc:labelDesc];
+     
+     
+//     Point3f location = [theView pointUnproject:GeoCoord::CoordFromDegrees(2.350833, 48.856667) width:sceneRenderer.framebufferWidth height:sceneRenderer.framebufferHeight clip:false];
+//     [self.selectionLayer addSelectableRect:texLabel.selectID rect:&location];
+     
+     [self.interactLayer rotateToCoordinate:GeoCoord::CoordFromDegrees(2.350833, 48.856667)];
+}
+
+#pragma mark - InteractionLayerDelegate Methods 
+
+- (void)tappedOnLocation
+{
+    GALocationViewController *locationViewController = [[GALocationViewController alloc] init];
+    locationViewController.view.frame = self.view.frame;
+    [UIView transitionFromView:self.view toView:locationViewController.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
+        [UIView transitionFromView:locationViewController.view toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:NULL];
+    }];
+}
+
 
 @end
