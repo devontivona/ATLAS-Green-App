@@ -38,6 +38,9 @@ FeatureRep::~FeatureRep()
 @property(nonatomic,strong) VectorLayer *vectorLayer;
 @property(nonatomic,strong) LabelLayer *labelLayer;
 @property(nonatomic,strong) WhirlyGlobeView *globeView;
+
+- (FeatureRep *)findFeatureRep:(const GeoCoord &)geoCoord height:(float)heightAboveGlobe whichShape:(VectorShapeRef *)whichShape;
+
 @end
 
 @implementation InteractionLayer
@@ -51,6 +54,9 @@ FeatureRep::~FeatureRep()
 @synthesize globeView;
 @synthesize vectorLayer;
 @synthesize labelLayer;
+@synthesize selectionLayer;
+
+@synthesize delegate;
 
 - (id)initWithVectorLayer:(VectorLayer *)inVecLayer labelLayer:(LabelLayer *)inLabelLayer globeView:(WhirlyGlobeView *)inGlobeView
              countryShape:(NSString *)countryShape oceanShape:(NSString *)oceanShape regionShape:(NSString *)regionShape
@@ -163,29 +169,27 @@ FeatureRep::~FeatureRep()
 // We're in the main thread here
 - (void)tapSelector:(NSNotification *)note
 {
-	TapMessage *msg = note.object;
+    TapMessage *msg = note.object;
 
-    if (RotateToCountry)
-    {
-        // If we were rotating from one point to another, stop
-        [globeView cancelAnimation];
-
-        // Construct a quaternion to rotate from where we are to where
-        //  the user tapped
-        Eigen::Quaternionf newRotQuat = [globeView makeRotationToGeoCoord:msg.whereGeo keepNorthUp:YES];
-
-        // Rotate to the given position over 1s
-        globeView.delegate = [[AnimateViewRotation alloc] initWithView:globeView rot:newRotQuat howLong:1.0];
+    
+    GeoCoord coord = msg.whereGeo;
+    GeoCoord paris = GeoCoord::CoordFromDegrees(2.350833, 48.856667);
+    
+    bool isParis = (fabs(paris.x() - coord.x()) < 0.1) && (fabs(paris.y() - coord.y()) < 0.1);
+    
+    NSLog(@"We found paris: %@", isParis ? @"YES" : @"NO");
+    
+    if (isParis) {
+        [[self delegate] tappedOnLocation];
     }
-	
-	// Now we need to switch over to the layer thread for the rest of this
-	[self performSelector:@selector(pickObject:) onThread:layerThread withObject:msg waitUntilDone:NO];
 }
 
 // Someone tapped and held (pressed)
 // We're in the main thread here
 - (void)pressSelector:(NSNotification *)note
 {
+    return;
+    
 	TapMessage *msg = note.object;
     
 	// If we were rotating from one point to another, stop
@@ -561,5 +565,22 @@ static const float DesiredScreenProj = 0.4;
     // Note: If you want to bring up a view at this point,
     //        don't forget to switch back to the main thread
 }
+
+- (void)rotateToCoordinate:(WhirlyGlobe::GeoCoord)coordinate 
+{
+    // If we were rotating from one point to another, stop
+    [globeView cancelAnimation];
+    
+    // Construct a quaternion to rotate from where we are to where
+    //  the user tapped
+    Eigen::Quaternionf newRotQuat = [globeView makeRotationToGeoCoord:coordinate keepNorthUp:YES];
+    
+    // Rotate to the given position over 1s
+    globeView.delegate = [[AnimateViewRotation alloc] initWithView:globeView rot:newRotQuat howLong:1.0];
+	
+	// Now we need to switch over to the layer thread for the rest of this
+//	[self performSelector:@selector(pickObjectAtCoordinate:) onThread:layerThread withObject:coordinate waitUntilDone:NO];
+}
+
 
 @end

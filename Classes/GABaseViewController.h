@@ -25,7 +25,7 @@
 // If set, we'll turn on a grid layer
 static const bool UseGridLayer = true;
 
-@interface GABaseViewController : UIViewController
+@interface GABaseViewController : UIViewController <InteractionLayerDelegate>
 {
 	EAGLView *glView;
 	SceneRendererES1 *sceneRenderer;
@@ -55,6 +55,7 @@ static const bool UseGridLayer = true;
 	LabelLayer *labelLayer;
     GridLayer *gridLayer;
 	InteractionLayer *interactLayer;
+    WGSelectionLayer *selectionLayer;
 }
 
 @end

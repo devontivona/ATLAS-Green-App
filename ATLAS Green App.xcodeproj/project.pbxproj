@@ -86,6 +86,7 @@
 		2BFFD6A913970778000A619F /* big_wtb_9x3.pvrtc in Resources */ = {isa = PBXBuildFile; fileRef = 2BFFD68013970778000A619F /* big_wtb_9x3.pvrtc */; };
 		2BFFD6AA13970778000A619F /* big_wtb_info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BFFD68113970778000A619F /* big_wtb_info.plist */; };
 		913EAAC614E8486B0001C36D /* UIImage+Darken.m in Sources */ = {isa = PBXBuildFile; fileRef = 913EAAC514E8486B0001C36D /* UIImage+Darken.m */; };
+		914602E614F0D66700E3E9E4 /* trollface.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 914602E514F0D66700E3E9E4 /* trollface.jpg */; };
 		9199ACB414E0CD6700A33B91 /* GADepartureIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACB214E0CD6700A33B91 /* GADepartureIcon.png */; };
 		9199ACB514E0CD6700A33B91 /* GADepartureIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACB314E0CD6700A33B91 /* GADepartureIcon@2x.png */; };
 		9199ACBF14E0CE9100A33B91 /* GANavigationButtonBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 9199ACB714E0CE9100A33B91 /* GANavigationButtonBack.png */; };
@@ -109,6 +110,9 @@
 		91D0887E14DA08BE00E0AAC0 /* GAActionButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 91D0887B14DA08BE00E0AAC0 /* GAActionButton.png */; };
 		91D0887F14DA08BE00E0AAC0 /* GAGreenNavigationBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 91D0887C14DA08BE00E0AAC0 /* GAGreenNavigationBar.png */; };
 		91D0888014DA08BE00E0AAC0 /* GAGreenToolbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 91D0887D14DA08BE00E0AAC0 /* GAGreenToolbar.png */; };
+		91FE40E714F0B838006B1B99 /* GAMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 91FE40E614F0B838006B1B99 /* GAMarker.png */; };
+		91FE40EF14F0D61C006B1B99 /* GALocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91FE40ED14F0D61C006B1B99 /* GALocationViewController.m */; };
+		91FE40F014F0D61C006B1B99 /* GALocationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91FE40EE14F0D61C006B1B99 /* GALocationViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -199,6 +203,7 @@
 		8D1107310486CEB800E47090 /* ATLAS Green App-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ATLAS Green App-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		913EAAC414E8486B0001C36D /* UIImage+Darken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Darken.h"; sourceTree = "<group>"; };
 		913EAAC514E8486B0001C36D /* UIImage+Darken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Darken.m"; sourceTree = "<group>"; };
+		914602E514F0D66700E3E9E4 /* trollface.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = trollface.jpg; path = ../../../Downloads/trollface.jpg; sourceTree = "<group>"; };
 		9199ACB214E0CD6700A33B91 /* GADepartureIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GADepartureIcon.png; sourceTree = "<group>"; };
 		9199ACB314E0CD6700A33B91 /* GADepartureIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GADepartureIcon@2x.png"; sourceTree = "<group>"; };
 		9199ACB714E0CE9100A33B91 /* GANavigationButtonBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GANavigationButtonBack.png; sourceTree = "<group>"; };
@@ -226,6 +231,10 @@
 		91D0887B14DA08BE00E0AAC0 /* GAActionButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GAActionButton.png; sourceTree = "<group>"; };
 		91D0887C14DA08BE00E0AAC0 /* GAGreenNavigationBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GAGreenNavigationBar.png; sourceTree = "<group>"; };
 		91D0887D14DA08BE00E0AAC0 /* GAGreenToolbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GAGreenToolbar.png; sourceTree = "<group>"; };
+		91FE40E614F0B838006B1B99 /* GAMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GAMarker.png; sourceTree = "<group>"; };
+		91FE40EC14F0D61C006B1B99 /* GALocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GALocationViewController.h; path = ../GALocationViewController.h; sourceTree = "<group>"; };
+		91FE40ED14F0D61C006B1B99 /* GALocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GALocationViewController.m; path = ../GALocationViewController.m; sourceTree = "<group>"; };
+		91FE40EE14F0D61C006B1B99 /* GALocationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GALocationViewController.xib; path = ../GALocationViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +277,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				914602E514F0D66700E3E9E4 /* trollface.jpg */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				91D0888214DA08C500E0AAC0 /* Images */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -447,6 +457,9 @@
 		9199AD1214E0D6EA00A33B91 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				91FE40EC14F0D61C006B1B99 /* GALocationViewController.h */,
+				91FE40ED14F0D61C006B1B99 /* GALocationViewController.m */,
+				91FE40EE14F0D61C006B1B99 /* GALocationViewController.xib */,
 				2B35B056136A10BE00287424 /* PanDelegate.h */,
 				2B35B057136A10BE00287424 /* PanDelegate.mm */,
 				2BCAC47F12FBCAEB0049D73C /* InteractionLayer.h */,
@@ -474,6 +487,7 @@
 		91D0888214DA08C500E0AAC0 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				91FE40E614F0B838006B1B99 /* GAMarker.png */,
 				9199AD1514E0DD1C00A33B91 /* GABackgroundNoise.png */,
 				9199ACF414E0D52500A33B91 /* GAStatisticsIcon.png */,
 				9199ACF514E0D52500A33B91 /* GAStatisticsIcon@2x.png */,
@@ -625,6 +639,9 @@
 				9199AD0914E0D6A100A33B91 /* GADeparturesViewController.xib in Resources */,
 				9199AD0E14E0D6BC00A33B91 /* GAStatisticsViewController.xib in Resources */,
 				9199AD1714E0DD1C00A33B91 /* GABackgroundNoise.png in Resources */,
+				91FE40E714F0B838006B1B99 /* GAMarker.png in Resources */,
+				91FE40F014F0D61C006B1B99 /* GALocationViewController.xib in Resources */,
+				914602E614F0D66700E3E9E4 /* trollface.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +662,7 @@
 				9199AD0D14E0D6BC00A33B91 /* GAStatisticsViewController.m in Sources */,
 				9199AD1A14E0DE7200A33B91 /* GAFormViewController.m in Sources */,
 				913EAAC614E8486B0001C36D /* UIImage+Darken.m in Sources */,
+				91FE40EF14F0D61C006B1B99 /* GALocationViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

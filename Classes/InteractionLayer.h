@@ -53,6 +53,13 @@ typedef std::list<FeatureRep *> FeatureRepList;
 // Maximum number of features we're willing to represent at once
 static const unsigned int MaxFeatureReps = 8;
 
+
+@protocol InteractionLayerDelegate <NSObject>
+@required
+- (void)tappedOnLocation;
+@end
+
+
 /* (Whirly Globe) Interaction Layer
     This handles user interaction (taps) and manipulates data in the
     vector and label layers accordingly.
@@ -64,6 +71,7 @@ static const unsigned int MaxFeatureReps = 8;
 	WhirlyGlobeView *globeView;
 	VectorLayer *vectorLayer;
 	LabelLayer *labelLayer;
+    WGSelectionLayer *selectionLayer;
     
     NSDictionary *countryDesc;  // Visual representation for countries and their labels
     NSDictionary *oceanDesc;    // Visual representation for oceans and their labels
@@ -77,12 +85,18 @@ static const unsigned int MaxFeatureReps = 8;
     FeatureRepList featureReps;   // Countries we're currently representing
     
     float maxEdgeLen;    // Maximum length for a vector edge
+    
+    id <InteractionLayerDelegate> delegate;
 }
 
-@property (nonatomic,strong) NSDictionary *countryDesc;
-@property (nonatomic,strong) NSDictionary *oceanDesc;
-@property (nonatomic,strong) NSDictionary *regionDesc;
-@property (nonatomic,assign) float maxEdgeLen;
+@property (nonatomic, strong) NSDictionary *countryDesc;
+@property (nonatomic, strong) NSDictionary *oceanDesc;
+@property (nonatomic, strong) NSDictionary *regionDesc;
+@property (nonatomic, assign) float maxEdgeLen;
+
+@property (nonatomic, strong) WGSelectionLayer *selectionLayer;
+
+@property (nonatomic, strong) id delegate;
 
 // Need a pointer to the vector layer to start with
 - (id)initWithVectorLayer:(VectorLayer *)layer labelLayer:(LabelLayer *)labelLayer globeView:(WhirlyGlobeView *)globeView
@@ -90,5 +104,7 @@ static const unsigned int MaxFeatureReps = 8;
 
 // Called in the layer thread
 - (void)startWithThread:(WhirlyGlobeLayerThread *)inThread scene:(WhirlyGlobe::GlobeScene *)scene;
+
+- (void)rotateToCoordinate:(WhirlyGlobe::GeoCoord)coordinate;
 
 @end
