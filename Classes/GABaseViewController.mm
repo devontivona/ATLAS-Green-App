@@ -25,6 +25,8 @@
 #import "GAStatisticsViewController.h"
 #import "GALocationViewController.h"
 
+#import "GALocation.h"
+
 using namespace WhirlyGlobe;
 
 @interface GABaseViewController()
@@ -52,7 +54,8 @@ using namespace WhirlyGlobe;
 - (void)showDeparturePopover:(id)sender;
 - (void)showStatisticsPopover:(id)sender;
 
-- (void)addTextureLabels;
+- (void)addLocationLabels;
+- (void)addLabelForLocation:(GALocation *)location;
 
 @end
 
@@ -75,6 +78,8 @@ using namespace WhirlyGlobe;
 @synthesize gridLayer;
 @synthesize interactLayer;
 @synthesize selectionLayer;
+@synthesize managedObjectContext;
+@synthesize locations;
 
 - (void)clear
 {
@@ -269,6 +274,14 @@ using namespace WhirlyGlobe;
 
     // END: SETUP FOR NAVIGATION BAR
     // ---------------------------------------------------------------------------------
+    
+    // BEGIN: SETUP FOR CORE DATA
+    // ---------------------------------------------------------------------------------
+
+    self.managedObjectContext = [((GAAppDelegate*)[[UIApplication sharedApplication] delegate]) managedObjectContext];
+     
+    // END: SETUP FOR CORE DATA
+    // ---------------------------------------------------------------------------------
 }
 
 - (void)viewDidUnload
@@ -293,7 +306,8 @@ using namespace WhirlyGlobe;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self performSelector:@selector(addTextureLabels) withObject:Nil afterDelay:4.0];
+    [self fetchLocations];
+    [self performSelector:@selector(addLocationLabels) withObject:Nil afterDelay:1.0];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -330,19 +344,53 @@ using namespace WhirlyGlobe;
     [self presentModalViewController:statisticsViewController animated:YES];
 }
 
-- (void)addTextureLabels
+- (void)fetchLocations
+{
+    // Define our table/entity to use
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"GALocation" inManagedObjectContext:self.managedObjectContext];
+	
+	// Setup the fetch request
+	NSFetchRequest *request = [NSFetchRequest new];
+	[request setEntity:entity];
+	
+	// Fetch the records and handle an error
+	NSError *error;
+	NSArray *fetchResults = [[self.managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
+	
+	if (!fetchResults) {
+		// Handle the error.
+		// This is a serious error and should advise the user to restart the application
+	}
+	
+	// Save our fetched data to an array
+    
+	[self setLocations:fetchResults];
+}
+
+- (void)addLocationLabels
  {
+     for (GALocation *location in self.locations) {
+         [self addLabelForLocation:location];
+     }
+     
+     [self.interactLayer rotateToCoordinate:GeoCoord::CoordFromDegrees(2.350833, 48.856667)];
+}
+
+- (void)addLabelForLocation:(GALocation *)location
+{
+    NSLog(@"Adding label for location: %@", location.name);
+    
     // This describes how our labels will look
     NSDictionary *labelDesc = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithBool:YES],@"enable",
-                              [UIColor clearColor],@"backgroundColor",
-                              [UIColor whiteColor],@"textColor",
-                              [UIFont boldSystemFontOfSize:16.0],@"font",
-                              [NSNumber numberWithInt:0],@"drawOffset",
-                              [NSNumber numberWithFloat:0.02],@"height",
-                              [NSNumber numberWithFloat:0.02],@"width",
-                              nil];
-
+                               [NSNumber numberWithBool:YES],@"enable",
+                               [UIColor clearColor],@"backgroundColor",
+                               [UIColor whiteColor],@"textColor",
+                               [UIFont boldSystemFontOfSize:16.0],@"font",
+                               [NSNumber numberWithInt:0],@"drawOffset",
+                               [NSNumber numberWithFloat:0.02],@"height",
+                               [NSNumber numberWithFloat:0.02],@"width",
+                               nil];
+    
     // Build up an individual label
     NSMutableArray *labels = [[NSMutableArray alloc] init];
     SingleLabel *texLabel = [[SingleLabel alloc] init];
@@ -353,29 +401,26 @@ using namespace WhirlyGlobe;
     theScene->addChangeRequest(new AddTextureReq(theTex));
     texLabel.text = @" ";
     texLabel.iconTexture = theTexId;
-    [texLabel setLoc:GeoCoord::CoordFromDegrees(2.350833, 48.856667)];
-     
+    [texLabel setLoc:GeoCoord::CoordFromDegrees([location.longitude floatValue], [location.latitude floatValue])];
+    
     texLabel.isSelectable = true;
-     
+    
     [labels addObject:texLabel];
     [self.labelLayer addLabels:labels desc:labelDesc];
-     
-     
-//     Point3f location = [theView pointUnproject:GeoCoord::CoordFromDegrees(2.350833, 48.856667) width:sceneRenderer.framebufferWidth height:sceneRenderer.framebufferHeight clip:false];
-//     [self.selectionLayer addSelectableRect:texLabel.selectID rect:&location];
-     
-     [self.interactLayer rotateToCoordinate:GeoCoord::CoordFromDegrees(2.350833, 48.856667)];
 }
 
 #pragma mark - InteractionLayerDelegate Methods 
 
-- (void)tappedOnLocation
+- (void)tappedOnLocation:(GALocation *)location
 {
     GALocationViewController *locationViewController = [[GALocationViewController alloc] init];
-    locationViewController.view.frame = self.view.frame;
-    [UIView transitionFromView:self.view toView:locationViewController.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
-        [UIView transitionFromView:locationViewController.view toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:NULL];
-    }];
+    locationViewController.location = location;
+    
+    locationViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:locationViewController animated:YES];
+//    [UIView transitionFromView:self.view toView:locationViewController.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
+//        [UIView transitionFromView:locationViewController.view toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:NULL];
+//    }];
 }
 
 

@@ -29,10 +29,17 @@
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) IBOutlet GABaseViewController *viewController;
 
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
 + (UIButton *)texturedBackButtonWithTitle:(NSString*)title;
 + (UIButton *)texturedButtonWithTitle:(NSString*)title;
 + (UIButton *)texturedButtonWithImage:(UIImage*)image;
 + (UIButton *)texturedButton;
+
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 
 + (void)texturizeButton:(UIButton *)button;
 

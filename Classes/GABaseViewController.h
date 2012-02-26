@@ -58,5 +58,8 @@ static const bool UseGridLayer = true;
     WGSelectionLayer *selectionLayer;
 }
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (strong, nonatomic) NSArray *locations;
+
 @end
 

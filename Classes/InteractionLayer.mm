@@ -20,6 +20,9 @@
 
 #import "InteractionLayer.h"
 
+#import "GALocation.h"
+#import "GABaseViewController.h"
+
 using namespace WhirlyGlobe;
 
 FeatureRep::FeatureRep() :
@@ -130,6 +133,7 @@ FeatureRep::~FeatureRep()
 		// Register for the tap and press events
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tapSelector:) name:WhirlyGlobeTapMsg object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pressSelector:) name:WhirlyGlobeLongPressMsg object:nil];
+        
 	}
 	
 	return self;
@@ -173,15 +177,20 @@ FeatureRep::~FeatureRep()
 
     
     GeoCoord coord = msg.whereGeo;
-    GeoCoord paris = GeoCoord::CoordFromDegrees(2.350833, 48.856667);
     
-    bool isParis = (fabs(paris.x() - coord.x()) < 0.1) && (fabs(paris.y() - coord.y()) < 0.1);
-    
-    NSLog(@"We found paris: %@", isParis ? @"YES" : @"NO");
-    
-    if (isParis) {
-        [[self delegate] tappedOnLocation];
+    for (GALocation *location in ((GABaseViewController *)delegate).locations) {
+        GeoCoord locationCoord = GeoCoord::CoordFromDegrees([location.longitude floatValue], [location.latitude floatValue]);
+        
+        bool isLocation = (fabs(locationCoord.x() - coord.x()) < 0.1) && (fabs(locationCoord.y() - coord.y()) < 0.1);
+        
+        NSLog(@"We tapped on a location: %@", isLocation ? @"YES" : @"NO");
+        
+        if (isLocation) {
+            [[self delegate] tappedOnLocation:location];
+            break;
+        }
     }
+
 }
 
 // Someone tapped and held (pressed)

@@ -21,6 +21,7 @@
 #import <list>
 #import <Foundation/Foundation.h>
 #import <WhirlyGlobe/WhirlyGlobe.h>
+#import "GALocation.h"
 
 typedef std::set<WhirlyGlobe::SimpleIdentity> SimpleIDSet;
 
@@ -56,7 +57,7 @@ static const unsigned int MaxFeatureReps = 8;
 
 @protocol InteractionLayerDelegate <NSObject>
 @required
-- (void)tappedOnLocation;
+- (void)tappedOnLocation:(GALocation *)location;
 @end
 
 

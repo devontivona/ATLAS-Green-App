@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GAFormViewController.h"
 
-@interface GALocationViewController : UIViewController
+@class GALocation;
+
+@interface GALocationViewController : GAFormViewController
+
+@property(strong, nonatomic) GALocation *location;
 
 @end
