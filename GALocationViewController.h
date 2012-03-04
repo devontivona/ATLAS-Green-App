@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "GAFormViewController.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 @class GALocation;
 
-@interface GALocationViewController : GAFormViewController
+@interface GALocationViewController : GAFormViewController {
+    MPMoviePlayerController *moviePlayer;
+}
 
 @property(strong, nonatomic) GALocation *location;
 

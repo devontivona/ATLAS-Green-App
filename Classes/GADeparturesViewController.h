@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "GAFormViewController.h"
 
-@interface GADeparturesViewController : GAFormViewController
+@interface GADeparturesViewController : GAFormViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end

@@ -60,6 +60,8 @@ static const bool UseGridLayer = true;
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (strong, nonatomic) NSArray *locations;
+@property (strong, nonatomic) EAGLView *glView;
+@property (nonatomic,strong) InteractionLayer *interactLayer;
 
 @end
 

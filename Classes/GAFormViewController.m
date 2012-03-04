@@ -8,6 +8,7 @@
 
 #import "GAFormViewController.h"
 #import "GAAppDelegate.h"
+#import "GABaseViewController.h"
 
 @interface GAFormViewController()
 
@@ -16,6 +17,8 @@
 @end
 
 @implementation GAFormViewController
+
+@synthesize baseViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -58,7 +61,7 @@
     
     UINavigationBar *navigationBar = [[UINavigationBar alloc] init];
     [self.view addSubview:navigationBar];
-    navigationBar.frame = CGRectMake(0, 0, 540, 44);
+    navigationBar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
     
     navigationItem = [[UINavigationItem alloc] init];
     [navigationBar pushNavigationItem:navigationItem animated:NO];
@@ -90,8 +93,8 @@
 
 - (void)doneButtonPressed:(id)sender 
 {
-    NSLog(@"%@", NSStringFromCGRect(self.view.frame));
-	[self dismissModalViewControllerAnimated:YES];
+	[self.presentingViewController dismissModalViewControllerAnimated:YES];
+    [self.baseViewController.glView startAnimation];
 }
 
 

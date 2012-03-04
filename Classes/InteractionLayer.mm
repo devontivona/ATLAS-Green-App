@@ -591,5 +591,10 @@ static const float DesiredScreenProj = 0.4;
 //	[self performSelector:@selector(pickObjectAtCoordinate:) onThread:layerThread withObject:coordinate waitUntilDone:NO];
 }
 
+- (void)rotateToLocation:(GALocation *)location
+{
+    [self rotateToCoordinate:GeoCoord::CoordFromDegrees([location.longitude floatValue], [location.latitude floatValue])];
+}
+
 
 @end

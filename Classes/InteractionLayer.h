@@ -107,5 +107,6 @@ static const unsigned int MaxFeatureReps = 8;
 - (void)startWithThread:(WhirlyGlobeLayerThread *)inThread scene:(WhirlyGlobe::GlobeScene *)scene;
 
 - (void)rotateToCoordinate:(WhirlyGlobe::GeoCoord)coordinate;
+- (void)rotateToLocation:(GALocation *)location;
 
 @end

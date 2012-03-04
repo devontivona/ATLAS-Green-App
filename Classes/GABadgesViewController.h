@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "GAFormViewController.h"
+#import <SSToolkit/SSCollectionView.h>
 
-@interface GABadgesViewController : GAFormViewController
+@interface GABadgesViewController : GAFormViewController <SSCollectionViewDelegate, SSCollectionViewDataSource>
+
+@property (strong, nonatomic) SSCollectionView *collectionView;
 
 @end

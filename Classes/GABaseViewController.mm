@@ -24,6 +24,7 @@
 #import "GADeparturesViewController.h"
 #import "GAStatisticsViewController.h"
 #import "GALocationViewController.h"
+#import "GAWelcomeViewController.h"
 
 #import "GALocation.h"
 
@@ -31,7 +32,6 @@ using namespace WhirlyGlobe;
 
 @interface GABaseViewController()
 
-@property (nonatomic,strong) EAGLView *glView;
 @property (nonatomic,strong) SceneRendererES1 *sceneRenderer;
 @property (nonatomic,strong) WhirlyGlobePinchDelegate *pinchDelegate;
 @property (nonatomic,strong) WhirlyGlobeSwipeDelegate *swipeDelegate;
@@ -46,7 +46,6 @@ using namespace WhirlyGlobe;
 @property (nonatomic,strong) VectorLayer *vectorLayer;
 @property (nonatomic,strong) LabelLayer *labelLayer;
 @property (nonatomic,strong) GridLayer *gridLayer;
-@property (nonatomic,strong) InteractionLayer *interactLayer;
 @property (nonatomic,strong) WGSelectionLayer *selectionLayer;
 
 
@@ -56,6 +55,7 @@ using namespace WhirlyGlobe;
 
 - (void)addLocationLabels;
 - (void)addLabelForLocation:(GALocation *)location;
+- (void)fetchLocations;
 
 @end
 
@@ -205,7 +205,7 @@ using namespace WhirlyGlobe;
 	sceneRenderer.view = theView;
 	
 	// Wire up the gesture recognizers
-	self.pinchDelegate = [WhirlyGlobePinchDelegate pinchDelegateForView:glView globeView:theView];
+//	self.pinchDelegate = [WhirlyGlobePinchDelegate pinchDelegateForView:glView globeView:theView];
 	self.panDelegate = [PanDelegate panDelegateForView:glView globeView:theView];
 	self.tapDelegate = [WhirlyGlobeTapDelegate tapDelegateForView:glView globeView:theView];
     self.pressDelegate = [WhirlyGlobeLongPressDelegate longPressDelegateForView:glView globeView:theView];
@@ -257,7 +257,7 @@ using namespace WhirlyGlobe;
     navigationBar.frame = CGRectMake(0, 0, 768, 44);
     
     UINavigationItem *navigationItem = [[UINavigationItem alloc] init];
-    navigationItem.title = @"Climate Explorer";
+    navigationItem.title = @"Eco Explorer";
     [navigationBar pushNavigationItem:navigationItem animated:NO];
     [navigationBar setBackgroundImage:[UIImage imageNamed:@"GAGreenNavigationBar"] forBarMetrics:UIBarMetricsDefault];
     
@@ -282,6 +282,9 @@ using namespace WhirlyGlobe;
      
     // END: SETUP FOR CORE DATA
     // ---------------------------------------------------------------------------------
+
+    [self fetchLocations];
+    [self performSelector:@selector(addLocationLabels) onThread:self.layerThread withObject:nil waitUntilDone:NO];
 }
 
 - (void)viewDidUnload
@@ -306,9 +309,14 @@ using namespace WhirlyGlobe;
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self fetchLocations];
-    [self performSelector:@selector(addLocationLabels) withObject:Nil afterDelay:1.0];
+    [super viewDidAppear:animated];
+    
+    
+    GAWelcomeViewController *welcomeViewController = [[GAWelcomeViewController alloc] init];
+    welcomeViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    [self presentModalViewController:welcomeViewController animated:YES];
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
@@ -325,22 +333,33 @@ using namespace WhirlyGlobe;
 
 - (void)showBadgesPopover:(id)sender
 {
+    [self.glView stopAnimation];
+    
     GABadgesViewController *badgesViewController = [[GABadgesViewController alloc] initWithNibName:@"GABadgesViewController" bundle:[NSBundle mainBundle]];
     badgesViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    badgesViewController.baseViewController = self;
+
     [self presentModalViewController:badgesViewController animated:YES];
 }
 
 - (void)showDeparturesPopover:(id)sender
 {
+    [self.glView stopAnimation];
+
     GADeparturesViewController *departuresViewController = [[GADeparturesViewController alloc] initWithNibName:@"GADeparturesViewController" bundle:[NSBundle mainBundle]];
     departuresViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    departuresViewController.baseViewController = self;
     [self presentModalViewController:departuresViewController animated:YES];
 }
 
 - (void)showStatisticsPopover:(id)sender
 {
+    [self.glView stopAnimation];
+
     GAStatisticsViewController *statisticsViewController = [[GAStatisticsViewController alloc] initWithNibName:@"GAStatisticsViewController" bundle:[NSBundle mainBundle]];
     statisticsViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    statisticsViewController.baseViewController = self;
+
     [self presentModalViewController:statisticsViewController animated:YES];
 }
 
@@ -372,8 +391,6 @@ using namespace WhirlyGlobe;
      for (GALocation *location in self.locations) {
          [self addLabelForLocation:location];
      }
-     
-     [self.interactLayer rotateToCoordinate:GeoCoord::CoordFromDegrees(2.350833, 48.856667)];
 }
 
 - (void)addLabelForLocation:(GALocation *)location
@@ -413,14 +430,15 @@ using namespace WhirlyGlobe;
 
 - (void)tappedOnLocation:(GALocation *)location
 {
+    [self.glView stopAnimation];
+
     GALocationViewController *locationViewController = [[GALocationViewController alloc] init];
     locationViewController.location = location;
     
-    locationViewController.modalPresentationStyle = UIModalPresentationFormSheet;
+    locationViewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    locationViewController.baseViewController = self;
+
     [self presentModalViewController:locationViewController animated:YES];
-//    [UIView transitionFromView:self.view toView:locationViewController.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:^(BOOL finished) {
-//        [UIView transitionFromView:locationViewController.view toView:self.view duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft completion:NULL];
-//    }];
 }
 
 

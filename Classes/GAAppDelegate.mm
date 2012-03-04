@@ -35,6 +35,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; 
+	NSDictionary *defaultsDictionary = [[NSDictionary alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GADefaults" ofType:@"plist"]];
+    [defaults registerDefaults:defaultsDictionary];
+    
     // Override point for customization after application launch.
     [self.window addSubview:viewController.view];
     [self.window makeKeyAndVisible];

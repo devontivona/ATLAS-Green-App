@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class GABaseViewController;
+
 @interface GAFormViewController : UIViewController {
     UINavigationItem *navigationItem;
 }
+
+@property (weak, nonatomic) GABaseViewController *baseViewController;
 
 @end
